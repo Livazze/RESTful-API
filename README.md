@@ -13,4 +13,4 @@ A RESTful API built with Go, structured using a clean layered architecture.
 
 
 ```bash
-go run .
+
