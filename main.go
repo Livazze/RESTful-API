@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
-	"log"
-
 	"db-api/database"
 	"db-api/handlers"
 	"db-api/repository"
 	"db-api/routes"
+	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -25,7 +25,7 @@ func main() {
 	app := fiber.New()
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:5173, http://localhost:5174, http://127.0.0.1:5173, http://127.0.0.1:5174",
+		AllowOrigins: "*",
 		AllowHeaders: "Origin, Content-Type, Accept",
 		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS",
 	}))
@@ -33,8 +33,13 @@ func main() {
 	// Routesları ekler
 	routes.SetupRoutes(app, handler)
 
-	log.Println("The server is running at http://localhost:3000")
-	log.Fatal(app.Listen(":3000"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+
+	log.Printf("The server is running on port :%s", port)
+	log.Fatal(app.Listen(":" + port))
 }
 
 /*hiçbiri kendi içind esistemi yaratmıyor birbirinden paramete olarak alıyor
