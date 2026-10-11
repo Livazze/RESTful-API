@@ -10,7 +10,7 @@ import (
 
 func ConnectDB() *sql.DB {
 	// PostgreSQL bağlantı dizesi (varsayılan port 5432)
-	connStr := "host=db.aauxfopnxthybtigqqxe.supabase.co port=5432 user=postgres password=a312004.a312004 dbname=postgres sslmode=require"
+	connStr := "postgresql://postgres.aauxfopnxthybtigqqxe:a312004.a312004@aws-1-eu-central-1.pooler.supabase.com:5432/postgres"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)
