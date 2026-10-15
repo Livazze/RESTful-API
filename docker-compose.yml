@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Veritabanı Konteyneri
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: postgres_container
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: studentdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Sizin Go Backend Uygulamanız
+  backend_api:
+    build: .
+    container_name: go_backend_container
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres_db
+    environment:
+      PORT: "8080"
+      # Dikkat: Docker içinde localhost yerine servis adı (postgres_db) yazılır
+      DATABASE_URL: "postgres://myuser:mypassword@postgres_db:5432/studentdb?sslmode=disable"
+
+volumes:
+  postgres_data:

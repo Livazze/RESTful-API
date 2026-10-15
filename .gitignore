@@ -32,6 +32,8 @@ node_modules/
 .env
 .env.*
 
+myapp
+
 # Node.js files not needed for this Go project
 node_modules/
 package.json

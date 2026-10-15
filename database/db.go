@@ -3,14 +3,19 @@ package database
 import (
 	"database/sql"
 	"log"
+	"os"
 	"time"
 
 	_ "github.com/lib/pq"
 )
 
 func ConnectDB() *sql.DB {
-	// PostgreSQL bağlantı dizesi (varsayılan port 5432)
-	connStr := "postgresql://postgres.aauxfopnxthybtigqqxe:a312004.a312004@aws-1-eu-central-1.pooler.supabase.com:5432/postgres"
+
+	connStr := os.Getenv("DATABASE_URL")
+	if connStr == "" {
+		connStr = "postgres://my:312004.@localhost:5432/mydb?sslmode=disable"
+	}
+
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)
@@ -26,7 +31,7 @@ func ConnectDB() *sql.DB {
 		panic(err)
 	}
 
-	// PostgreSQL'de AUTO_INCREMENT yerine SERIAL kullanılır
+	// PostgreSQL'de AUTO_INCREMENT yerine SERIAL
 	departments := `
 	CREATE TABLE IF NOT EXISTS departments (
 		id SERIAL PRIMARY KEY,
