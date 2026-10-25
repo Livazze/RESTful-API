@@ -13,7 +13,7 @@ func ConnectDB() *sql.DB {
 
 	connStr := os.Getenv("DATABASE_URL")
 	if connStr == "" {
-		connStr = "postgres://my:312004.@localhost:5432/mydb?sslmode=disable"
+		connStr = "postgres://my:312004@localhost:5432/mydb?sslmode=disable"
 	}
 
 	db, err := sql.Open("postgres", connStr)
